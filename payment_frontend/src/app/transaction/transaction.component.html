@@ -1,0 +1,124 @@
+
+<nav class="navbar navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">
+    <img src="https://seeklogo.com/images/D/dbs-logo-7ABCCCECCF-seeklogo.com.png" width="100px" alt="">
+  </a>
+</nav>
+<br><br>
+
+<div *ngIf = "form">
+<section class="fill_fields">
+  <div class="contact-form">
+<label class="label">Account Number : </label>
+<input type="text" name="customer_id" class="input-text" [(ngModel)]="customer_id"><br><br>
+<input type="button" class="btn btn-secondary" (click)="onIdSubmit()" value="Fetch Details">
+  </div>
+
+<div *ngIf = "customerfetched" class="contact-form">
+<label>{{"Customer Name : "}}</label>
+<input type="text" name="name" class="input-text" [(ngModel)]="customerdata.name"><br><br>
+<label>{{"Balance : "}}</label>
+<input type="text" name="name" class="input-text" [(ngModel)]="customerdata.clear_balance"><br><br>
+
+<label>Enter Receiver Account number : </label>
+<input type="text" name="name" class="input-text" [(ngModel)]="receiveracct_num">
+
+<div *ngIf = "isbank"><br>
+<input *ngIf = "isbank" type="button" class="btn btn-secondary" (click)="checkBank()" value="Check Bank"><br><br>
+
+<div *ngIf = "!isreceiverbank" >
+  <div *ngIf="checked">
+  <div class="input-group">
+      <label>Transaction Status: </label>&nbsp;
+      <label style="color: red">Failed</label>    
+  </div>
+  <div class="input-group">
+      <label>Error: </label>&nbsp;
+      <label class="text-danger">Cannot transfer amount from bank account to customer account</label>
+      
+  </div></div>
+</div>
+</div>
+<div *ngIf="!isbank">
+<label>Enter Receiver Name : </label>
+<input type="text" name="name" class="input-text" [(ngModel)]="receiveracct_name"><br><br>
+
+<label>Enter Receiver BIC : </label>
+<input type="text" name="name" class="input-text" [(ngModel)]="bic"> <br><br>
+<input type="button" class="btn btn-secondary" (click)="onBicSubmit()" value="Fetch Bank Details"><br><br>
+
+<div *ngIf = "bankfetched">
+    <label>{{"Receiver Bank name : "}}</label>
+    <input type="text" name="name" class="input-text" [(ngModel)]="bankdata.institution_name"><br>
+</div>
+    <label *ngIf = "bankerrorfetch" class="text-danger">{{error.description | json}}</label><br><br>
+
+<label for="cars">Choose a Message Code</label>
+<select name="code"  class="input-text" [(ngModel)]="msg_code">
+  <option *ngFor = "let m of msg_array"  [value]="m.code">{{m.code}}</option>
+</select><br><br>
+<label>Amount : </label>
+<input type="number" name="name" class="input-text" [(ngModel)]="amount"><br><br>
+<div class="text-center">
+<input type="button"  class="btn btn-success"  (click)="ondoTransaction()" value="Pay"><br><br>
+</div>
+</div>
+<div *ngIf="isreceiverbank">
+<label>Amount : </label>
+<input type="number" name="name" class="input-text" [(ngModel)]="amount"><br><br>
+<div class="text-center">
+<input type="button" class="btn btn-success" (click)="ondoTransaction()" value="Pay"><br><br>
+</div>
+</div>
+</div>
+</section>
+</div>
+
+<section class="fill_fields" *ngIf = "!form">
+<div *ngIf = "transactionfetched" class="align" >
+  <img src="/assets/images/success.gif" width="250px"><br><br>
+  <div class="input-group" class="align">
+      <label>Transaction ID: </label>&nbsp;
+      <label>{{transactionobj.trans_id}}</label>
+  </div>
+  <div class="input-group" class="align">
+      <label>Transaction Status: </label>&nbsp;
+      <label style="color: green;">Success</label><br><br>
+      <input type="button"  class="btn btn-success"  (click)="reloadForm()" value="Home">
+  </div>
+</div>
+
+
+<div *ngIf = "transactionerrorfetch" class="align" >
+  <img src="/assets/images/failed.gif" width="300px"><br><br>
+  <div class="input-group" class="align">
+      <label>Transaction Status: </label>&nbsp;
+      <label style="color: red">Failed</label>
+      
+  </div>
+  <div class="input-group" class="align">
+      <label>Error: </label>&nbsp;
+      <label class="text-danger">{{error.description}}</label><br><br>
+      <input type="button"  class="btn btn-success"  (click)="reloadForm()" value="Retry">
+  </div>
+</div>
+
+<div *ngIf = "customererrorfetch" class="align" >
+  <img src="/assets/images/failed.gif" width="300px"><br><br>
+  <div class="input-group" class="align">
+      <label>Transaction Status: </label>&nbsp;
+      <label style="color: red">Failed</label>
+      
+  </div>
+  <div class="input-group" class="align">
+      <label>Error: </label>&nbsp;
+      <label class="text-danger">{{error.description}}</label><br><br>
+      <input type="button"  class="btn btn-success"  (click)="reloadForm()" value="Retry">
+      
+  </div>
+</div>
+</section>
+
+
+
+
